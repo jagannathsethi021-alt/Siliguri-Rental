@@ -1,8 +1,4 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/code", "destination": "/code.html" }
-  ]
+  "cleanUrls": true
 }
