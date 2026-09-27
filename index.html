@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Rent2Ride Siliguri - Bike & Scooty Self-Drive Rental</title>
+  <meta name="description" content="Rent self-drive bikes & scooties in Siliguri, Bagdogra Airport & NJP with zero security deposit, doorstep delivery, and 2 free helmets."/>
+  
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#F97316",
+            "primary-container": "#F97316",
+            "accent-hover": "#EA580C",
+            "secondary": "#0F172A",
+            "text-primary": "#0F172A",
+            "text-secondary": "#475569",
+            "trust-green": "#10B981",
+            "trust-green-subtle": "#ECFDF5",
+            "warning-amber": "#F59E0B",
+            "surface-canvas": "#F8FAFC",
+            "surface-card": "#FFFFFF",
+            "surface-muted": "#F1F5F9",
+            "border-subtle": "#E2E8F0"
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Plus Jakarta Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-fill {
+      font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    .badge-pulse {
+      animation: pulse-ring 2s infinite;
+    }
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+      70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+  </style>
+</head>
+
+<body class="bg-surface-canvas text-text-primary font-sans antialiased min-h-screen pb-24 selection:bg-primary/20 selection:text-primary">
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-4 right-4 z-50 transform translate-y-[-100px] opacity-0 transition-all duration-300 pointer-events-none bg-secondary text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 border border-slate-700">
+    <span id="toast-icon" class="material-symbols-outlined text-trust-green text-[20px]">check_circle</span>
+    <span id="toast-message" class="text-sm font-semibold">Action completed successfully</span>
+  </div>
+
+  <!-- Mobile Drawer Overlay -->
+  <div class="fixed inset-0 bg-secondary/60 backdrop-blur-sm z-50 hidden transition-opacity duration-300" id="drawer-backdrop" onclick="toggleDrawer()"></div>
+
+  <!-- Shared Component: Navigation Drawer -->
+  <aside class="fixed inset-y-0 left-0 z-50 flex flex-col justify-between p-4 w-80 max-w-[85vw] bg-surface-card shadow-2xl border-r border-border-subtle -translate-x-full transition-transform duration-300 ease-out" id="mobile-drawer">
+    <div>
+      <div class="flex items-center justify-between pb-4 mb-3 border-b border-border-subtle">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white font-heading font-extrabold text-lg shadow-sm">
+            R2R
+          </div>
+          <div class="leading-none">
+            <span class="font-heading font-extrabold text-lg tracking-tight text-secondary">Rent<span class="text-primary">2Ride</span></span>
+            <span class="block text-[10px] text-text-secondary font-semibold uppercase tracking-wider">Siliguri Self-Drive</span>
+          </div>
+        </div>
+        <button class="p-2 rounded-full hover:bg-surface-muted active:scale-95 transition-all text-text-secondary" onclick="toggleDrawer()" aria-label="Close menu">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <!-- User Profile Card -->
+      <div class="flex items-center gap-3 p-3 bg-surface-muted rounded-xl mb-4">
+        <div class="w-11 h-11 rounded-full bg-primary text-white flex items-center justify-center font-heading font-bold shadow-sm">
+          <span class="material-symbols-outlined">account_circle</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h4 class="font-heading font-bold text-sm text-secondary truncate">Explorer Rider</h4>
+          <p class="text-xs text-trust-green flex items-center gap-1 font-semibold">
+            <span class="material-symbols-outlined text-[14px]">verified</span> KYC Verified Rider
+          </p>
+          <p class="text-[11px] text-text-secondary">+91 98004 07000</p>
+        </div>
+      </div>
+
+      <!-- Drawer Nav Links -->
+      <nav class="space-y-1">
+        <a class="flex items-center gap-3 bg-primary/10 text-primary font-bold rounded-xl px-4 py-3" href="#inventory" onclick="toggleDrawer()">
+          <span class="material-symbols-outlined text-primary">two_wheeler</span>
+          <span class="text-sm">Browse Fleet & Inventory</span>
+        </a>
+        <a class="flex items-center gap-3 text-text-secondary hover:bg-surface-muted rounded-xl px-4 py-3 transition-colors" href="#tariffs" onclick="openTariffsModal(); toggleDrawer();">
+          <span class="material-symbols-outlined">receipt_long</span>
+          <span class="text-sm">Tariffs & Zero Deposit Rules</span>
+        </a>
+        <a class="flex items-center gap-3 text-text-secondary hover:bg-surface-muted rounded-xl px-4 py-3 transition-colors" href="#steps" onclick="toggleDrawer()">
+          <span class="material-symbols-outlined">verified</span>
+          <span class="text-sm">How It Works (4 Steps)</span>
+        </a>
+        <a class="flex items-center gap-3 text-text-secondary hover:bg-surface-muted rounded-xl px-4 py-3 transition-colors" href="#bookings" onclick="openMyBookingsModal(); toggleDrawer();">
+          <span class="material-symbols-outlined">calendar_month</span>
+          <span class="text-sm">My Active Bookings</span>
+        </a>
+        <a class="flex items-center gap-3 text-text-secondary hover:bg-surface-muted rounded-xl px-4 py-3 transition-colors" href="#host" onclick="openHostModal(); toggleDrawer();">
+          <span class="material-symbols-outlined">storefront</span>
+          <span class="text-sm">List Your Vehicle & Earn</span>
+        </a>
+        <a class="flex items-center gap-3 text-text-secondary hover:bg-surface-muted rounded-xl px-4 py-3 transition-colors" href="#faq" onclick="toggleDrawer()">
+          <span class="material-symbols-outlined">help_outline</span>
+          <span class="text-sm">Help & FAQ</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Drawer Footer Quick Info -->
+    <div class="pt-4 border-t border-border-subtle space-y-2">
+      <div class="flex items-center justify-between text-xs text-text-secondary">
+        <span>Siliguri Hub Hotline</span>
+        <a class="text-primary font-bold hover:underline" href="tel:+919800407000">+91 98004 07000</a>
+      </div>
+      <div class="flex items-center justify-between text-xs text-text-secondary">
+        <span>Bagdogra Desk</span>
+        <span class="text-trust-green font-semibold">24/7 Gate Handover</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Sticky Top Bar Header -->
+  <header class="sticky top-0 z-40 flex items-center justify-between w-full px-4 py-3 bg-white/90 backdrop-blur-md shadow-sm border-b border-border-subtle max-w-6xl mx-auto">
+    <div class="flex items-center gap-3">
+      <button class="p-2 -ml-2 rounded-lg text-secondary hover:bg-surface-muted active:scale-95 transition-all" onclick="toggleDrawer()" aria-label="Open Navigation Menu">
+        <span class="material-symbols-outlined text-[26px]">menu</span>
+      </button>
+      <a href="#" class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white font-heading font-extrabold text-lg shadow-sm">
+          R2R
+        </div>
+        <div class="leading-none hidden sm:block">
+          <span class="font-heading font-extrabold text-xl tracking-tight text-secondary">Rent<span class="text-primary">2Ride</span></span>
+          <span class="block text-[10px] text-text-secondary font-bold uppercase tracking-wider">Siliguri • Bagdogra • NJP</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <!-- Hub Selector Pill Button -->
+      <button onclick="openHubModal()" class="flex items-center gap-1.5 bg-surface-muted hover:bg-slate-200 px-3 py-1.5 rounded-full border border-border-subtle text-secondary active:scale-95 transition-all">
+        <span class="material-symbols-outlined text-[18px] text-primary">location_on</span>
+        <span id="active-hub-display" class="text-xs font-bold truncate max-w-[110px]">Bagdogra Airport</span>
+        <span class="material-symbols-outlined text-[16px] text-text-secondary">expand_more</span>
+      </button>
+
+      <!-- Tariff Rates Action Button -->
+      <button onclick="openTariffsModal()" class="hidden md:flex items-center gap-1 text-xs font-bold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-secondary rounded-full border border-border-subtle transition-all">
+        <span class="material-symbols-outlined text-[16px] text-primary">payments</span>
+        <span>Tariffs</span>
+      </button>
+
+      <!-- Instant Phone Helpline Button -->
+      <a href="tel:+919800407000" class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center shadow-md hover:bg-accent-hover active:scale-95 transition-all" title="Call Siliguri Helpline">
+        <span class="material-symbols-outlined text-[20px]">call</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Body Container -->
+  <main class="max-w-6xl mx-auto space-y-6 pt-2">
+
+    <!-- Hero Section -->
+    <section class="px-4 pt-3">
+      <!-- Top Trust Banner -->
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-trust-green-subtle border border-trust-green/30 rounded-full mb-3 shadow-xs">
+        <span class="material-symbols-outlined text-trust-green text-[16px] material-symbols-fill">verified</span>
+        <span class="text-xs text-emerald-800 font-bold tracking-tight">Zero Security Deposit • 24/7 Roadside Assist • 2 Free Helmets</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-7 space-y-3">
+          <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-secondary tracking-tight leading-tight">
+            Drive Your Journey, <br/><span class="text-primary">Your Way in Siliguri</span>
+          </h1>
+          <p class="text-sm sm:text-base text-text-secondary leading-relaxed max-w-xl">
+            Rent sanitized bikes & scooties with instant digital verification, doorstep delivery at <strong>Bagdogra Airport (IXB)</strong> & <strong>NJP Station</strong>, and 0₹ deposit.
+          </p>
+        </div>
+
+        <!-- Hero Visual Banner -->
+        <div class="lg:col-span-5 relative rounded-2xl overflow-hidden shadow-lg border border-border-subtle aspect-[16/10] bg-slate-900 group">
+          <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1000&q=80" 
+               alt="Siliguri to Darjeeling Highway Bike Rental" 
+               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-secondary/80 via-secondary/20 to-transparent"></div>
+          
+          <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
+            <div class="flex items-center gap-1.5 bg-secondary/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20">
+              <span class="material-symbols-outlined text-warning-amber text-[18px]">landscape</span>
+              <span class="text-xs font-bold">Darjeeling & Sikkim Ready</span>
+            </div>
+            <div class="bg-primary px-3 py-1 rounded-lg text-xs font-extrabold tracking-wider text-white shadow-md">
+              STARTS ₹449/DAY
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Compact Mobile & Desktop Booking Search Widget -->
+    <section class="px-4">
+      <div class="bg-surface-card rounded-2xl p-4 sm:p-5 border border-border-subtle shadow-lg">
+        
+        <!-- Fleet Type Filter Tabs -->
+        <div class="flex items-center justify-between mb-3 border-b border-border-subtle pb-2 overflow-x-auto no-scrollbar">
+          <span class="text-xs font-bold uppercase tracking-wider text-text-secondary mr-2 shrink-0">Filter Fleet:</span>
+          <div class="flex items-center gap-1 bg-surface-muted p-1 rounded-xl w-full sm:w-auto">
+            <button class="tab-btn flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-surface-card text-secondary shadow-xs transition-all" onclick="filterFleet('all', this)">
+              All Rides (<span id="count-all">8</span>)
+            </button>
+            <button class="tab-btn flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-semibold text-text-secondary hover:text-secondary transition-all" onclick="filterFleet('scooty', this)">
+              Scooters (<span id="count-scooty">3</span>)
+            </button>
+            <button class="tab-btn flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-semibold text-text-secondary hover:text-secondary transition-all" onclick="filterFleet('bikes', this)">
+              Motorcycles (<span id="count-bikes">4</span>)
+            </button>
+            <button class="tab-btn flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-semibold text-text-secondary hover:text-secondary transition-all" onclick="filterFleet('ev', this)">
+              EV Electric (<span id="count-ev">1</span>)
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+          <!-- Hub Location Dropdown -->
+          <div>
+            <label class="block text-[11px] text-text-secondary font-bold uppercase tracking-wider mb-1">Pickup & Drop Location</label>
+            <div class="flex items-center gap-2 px-3 py-2.5 bg-surface-canvas rounded-xl border border-border-subtle focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+              <span class="material-symbols-outlined text-primary text-[20px]">near_me</span>
+              <select id="search-location" onchange="syncLocation(this.value)" class="w-full bg-transparent border-none p-0 text-xs font-bold text-secondary focus:ring-0 cursor-pointer">
+                <option value="Bagdogra Airport (IXB Hub)">Bagdogra Airport (IXB Hub)</option>
+                <option value="NJP Railway Station Junction">NJP Railway Station Junction</option>
+                <option value="Sevoke Road / Vega Circle Hub">Sevoke Road / Vega Circle Hub</option>
+                <option value="Hill Cart Road Junction">Hill Cart Road Junction</option>
+                <option value="Matigara / City Centre Hub">Matigara / City Centre Hub</option>
+                <option value="Doorstep Delivery (Siliguri Town)">Doorstep Delivery (Siliguri Town)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Pickup Date/Time -->
+          <div>
+            <label class="block text-[11px] text-text-secondary font-bold uppercase tracking-wider mb-1">Pickup Date & Time</label>
+            <div class="flex items-center gap-2 px-3 py-2.5 bg-surface-canvas rounded-xl border border-border-subtle focus-within:border-primary transition-all">
+              <span class="material-symbols-outlined text-text-secondary text-[18px]">calendar_today</span>
+              <input type="datetime-local" id="search-pickup" onchange="calculateSearchDuration()" class="w-full bg-transparent border-none p-0 text-xs font-bold text-secondary focus:ring-0"/>
+            </div>
+          </div>
+
+          <!-- Drop Date/Time -->
+          <div>
+            <label class="block text-[11px] text-text-secondary font-bold uppercase tracking-wider mb-1">Dropoff Date & Time</label>
+            <div class="flex items-center gap-2 px-3 py-2.5 bg-surface-canvas rounded-xl border border-border-subtle focus-within:border-primary transition-all">
+              <span class="material-symbols-outlined text-text-secondary text-[18px]">event_repeat</span>
+              <input type="datetime-local" id="search-drop" onchange="calculateSearchDuration()" class="w-full bg-transparent border-none p-0 text-xs font-bold text-secondary focus:ring-0"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trip Spec Bar & Search Button -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 pt-3 border-t border-border-subtle">
+          <div class="flex items-center gap-4 text-xs text-text-secondary">
+            <span class="flex items-center gap-1 font-semibold"><span class="material-symbols-outlined text-[16px] text-trust-green">check_circle</span> 2 ISI Helmets Free</span>
+            <span class="flex items-center gap-1 font-semibold"><span class="material-symbols-outlined text-[16px] text-primary">speed</span> Unlimited Km</span>
+            <span id="trip-duration-badge" class="font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">Duration: 1 Day</span>
+          </div>
+
+          <button onclick="executeSearch()" class="w-full sm:w-auto px-6 py-3 bg-primary hover:bg-accent-hover text-white font-heading font-bold text-sm rounded-xl shadow-md flex items-center justify-center gap-2 active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-[20px]">search</span>
+            <span>SEARCH AVAILABLE RIDES</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Brand Badges Marquee -->
+    <section class="px-4 overflow-x-auto no-scrollbar py-1">
+      <div class="flex items-center gap-3 whitespace-nowrap">
+        <span class="text-xs text-text-secondary font-bold uppercase tracking-wider">Top Brands:</span>
+        <div class="px-3 py-1.5 bg-white rounded-full border border-border-subtle text-secondary text-xs font-bold flex items-center gap-1.5 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-primary"></span> Royal Enfield
+        </div>
+        <div class="px-3 py-1.5 bg-white rounded-full border border-border-subtle text-secondary text-xs font-bold flex items-center gap-1.5 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-slate-900"></span> Yamaha
+        </div>
+        <div class="px-3 py-1.5 bg-white rounded-full border border-border-subtle text-secondary text-xs font-bold flex items-center gap-1.5 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-warning-amber"></span> TVS Motors
+        </div>
+        <div class="px-3 py-1.5 bg-white rounded-full border border-border-subtle text-secondary text-xs font-bold flex items-center gap-1.5 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-red-600"></span> Honda
+        </div>
+        <div class="px-3 py-1.5 bg-white rounded-full border border-border-subtle text-secondary text-xs font-bold flex items-center gap-1.5 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-trust-green"></span> Ather EV
+        </div>
+        <div class="px-3 py-1.5 bg-white rounded-full border border-border-subtle text-secondary text-xs font-bold flex items-center gap-1.5 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-blue-600"></span> Bajaj Pulsar
+        </div>
+      </div>
+    </section>
+
+    <!-- Fleet Inventory Grid Section -->
+    <section class="px-4 space-y-4" id="inventory">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="font-heading text-xl sm:text-2xl font-bold text-secondary">Available Inventory in Siliguri</h2>
+          <p class="text-xs sm:text-sm text-text-secondary">Instant confirmation with 0₹ security deposit</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="toggleSort()" class="flex items-center gap-1 bg-surface-muted hover:bg-slate-200 px-3 py-1.5 rounded-lg text-secondary text-xs font-semibold border border-border-subtle transition-all">
+            <span>Sort Price</span>
+            <span class="material-symbols-outlined text-[16px]">swap_vert</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Vehicle Grid -->
+      <div id="fleet-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Cards will be dynamically rendered & filtered here by JS -->
+      </div>
+    </section>
+
+    <!-- Why Choose Us Bento Section -->
+    <section class="px-4">
+      <div class="mb-3">
+        <span class="text-xs text-primary font-bold uppercase tracking-wider">The Rent2Ride Guarantee</span>
+        <h2 class="font-heading text-xl font-bold text-secondary">Why Travelers & Locals Choose Us</h2>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="p-4 bg-white rounded-2xl border border-border-subtle shadow-xs hover:border-trust-green transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-trust-green-subtle text-trust-green flex items-center justify-center mb-3">
+            <span class="material-symbols-outlined text-[24px]">savings</span>
+          </div>
+          <h4 class="font-bold text-sm text-secondary mb-1">Zero Security Deposit</h4>
+          <p class="text-xs text-text-secondary">No locked cash, bank pre-authorization, or deposit delays.</p>
+        </div>
+
+        <div class="p-4 bg-white rounded-2xl border border-border-subtle shadow-xs hover:border-primary transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-orange-100 text-primary flex items-center justify-center mb-3">
+            <span class="material-symbols-outlined text-[24px]">flight_land</span>
+          </div>
+          <h4 class="font-bold text-sm text-secondary mb-1">Airport Handover</h4>
+          <p class="text-xs text-text-secondary">Direct key delivery right at Bagdogra Airport gate & NJP station.</p>
+        </div>
+
+        <div class="p-4 bg-white rounded-2xl border border-border-subtle shadow-xs hover:border-blue-500 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 text-secondary flex items-center justify-center mb-3">
+            <span class="material-symbols-outlined text-[24px]">sports_motorsports</span>
+          </div>
+          <h4 class="font-bold text-sm text-secondary mb-1">2 ISI Helmets Free</h4>
+          <p class="text-xs text-text-secondary">Freshly sanitized ISI certified helmets for rider & pillion included.</p>
+        </div>
+
+        <div class="p-4 bg-white rounded-2xl border border-border-subtle shadow-xs hover:border-amber-500 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-amber-50 text-warning-amber flex items-center justify-center mb-3">
+            <span class="material-symbols-outlined text-[24px]">support_agent</span>
+          </div>
+          <h4 class="font-bold text-sm text-secondary mb-1">24/7 Hill RSA</h4>
+          <p class="text-xs text-text-secondary">Instant breakdown replacement across Darjeeling, Sikkim & Dooars.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4-Step Booking Process -->
+    <section class="px-4" id="steps">
+      <div class="bg-white rounded-2xl p-5 border border-border-subtle shadow-sm">
+        <h2 class="font-heading text-lg font-bold text-secondary mb-1">Book Your Self-Drive Ride in 4 Easy Steps</h2>
+        <p class="text-xs text-text-secondary mb-5">Digital paperless verification completed under 3 minutes</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <div class="relative pl-8 sm:pl-0 sm:pt-7">
+            <div class="absolute left-0 top-0 sm:left-0 sm:-top-2 w-7 h-7 rounded-full bg-trust-green text-white flex items-center justify-center text-xs font-bold">1</div>
+            <h4 class="font-bold text-sm text-secondary">Choose Scooter/Bike</h4>
+            <p class="text-xs text-text-secondary mt-1">Select from 110cc automatics to 350cc mountain cruisers.</p>
+          </div>
+
+          <div class="relative pl-8 sm:pl-0 sm:pt-7">
+            <div class="absolute left-0 top-0 sm:left-0 sm:-top-2 w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold">2</div>
+            <h4 class="font-bold text-sm text-secondary">Digital KYC Check</h4>
+            <p class="text-xs text-text-secondary mt-1">Instant Aadhaar & Driving License verification via OTP.</p>
+          </div>
+
+          <div class="relative pl-8 sm:pl-0 sm:pt-7">
+            <div class="absolute left-0 top-0 sm:left-0 sm:-top-2 w-7 h-7 rounded-full bg-secondary text-white flex items-center justify-center text-xs font-bold">3</div>
+            <h4 class="font-bold text-sm text-secondary">Zero Deposit Key Handover</h4>
+            <p class="text-xs text-text-secondary mt-1">Collect keys at Bagdogra Airport, NJP, or hotel doorstep.</p>
+          </div>
+
+          <div class="relative pl-8 sm:pl-0 sm:pt-7">
+            <div class="absolute left-0 top-0 sm:left-0 sm:-top-2 w-7 h-7 rounded-full bg-slate-400 text-white flex items-center justify-center text-xs font-bold">4</div>
+            <h4 class="font-bold text-sm text-secondary">Explore Hills & Return</h4>
+            <p class="text-xs text-text-secondary mt-1">Ride to Darjeeling, Mirik, or Gangtok with peace of mind.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Popular North Bengal Circuit Routes -->
+    <section class="px-4">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h2 class="font-heading text-lg font-bold text-secondary">Popular North Bengal Riding Routes</h2>
+          <p class="text-xs text-text-secondary">Top scenic circuits starting from Siliguri hub</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="p-3.5 bg-white rounded-xl border border-border-subtle shadow-xs hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-extrabold text-primary">65 KM • 2.5 HRS</span>
+            <span class="material-symbols-outlined text-amber-500 text-[18px]">landscape</span>
+          </div>
+          <h4 class="font-bold text-sm text-secondary">Siliguri to Darjeeling</h4>
+          <p class="text-xs text-text-secondary mt-1">Via Rohini & Kurseong tea gardens. Smooth tarmac mountain curves.</p>
+        </div>
+
+        <div class="p-3.5 bg-white rounded-xl border border-border-subtle shadow-xs hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-extrabold text-primary">114 KM • 4.0 HRS</span>
+            <span class="material-symbols-outlined text-trust-green text-[18px]">mountain_flag</span>
+          </div>
+          <h4 class="font-bold text-sm text-secondary">Siliguri to Gangtok</h4>
+          <p class="text-xs text-text-secondary mt-1">Teesta river corridor via NH10. Permits provided for Sikkim entry.</p>
+        </div>
+
+        <div class="p-3.5 bg-white rounded-xl border border-border-subtle shadow-xs hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-extrabold text-primary">48 KM • 1.5 HRS</span>
+            <span class="material-symbols-outlined text-blue-500 text-[18px]">nature</span>
+          </div>
+          <h4 class="font-bold text-sm text-secondary">Mirik Lake Circuit</h4>
+          <p class="text-xs text-text-secondary mt-1">Perfect day trip through Sumendu lake pine tree trails.</p>
+        </div>
+
+        <div class="p-3.5 bg-white rounded-xl border border-border-subtle shadow-xs hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-extrabold text-primary">68 KM • 2.0 HRS</span>
+            <span class="material-symbols-outlined text-emerald-600 text-[18px]">forest</span>
+          </div>
+          <h4 class="font-bold text-sm text-secondary">Dooars Elephant Corridor</h4>
+          <p class="text-xs text-text-secondary mt-1">Siliguri to Lataguri & Murti through wildlife forest reserves.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rider Reviews -->
+    <section class="px-4">
+      <div class="bg-white rounded-2xl p-5 border border-border-subtle shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h2 class="font-heading text-lg font-bold text-secondary">Verified Rider Reviews</h2>
+            <div class="flex items-center gap-1.5 mt-0.5">
+              <div class="flex text-amber-400">
+                <span class="material-symbols-outlined text-[16px] material-symbols-fill">star</span>
+                <span class="material-symbols-outlined text-[16px] material-symbols-fill">star</span>
+                <span class="material-symbols-outlined text-[16px] material-symbols-fill">star</span>
+                <span class="material-symbols-outlined text-[16px] material-symbols-fill">star</span>
+                <span class="material-symbols-outlined text-[16px] material-symbols-fill">star</span>
+              </div>
+              <span class="text-xs font-bold text-secondary">4.9 / 5</span>
+              <span class="text-xs text-text-secondary">(850+ verified rentals)</span>
+            </div>
+          </div>
+          <span class="px-3 py-1 bg-trust-green-subtle text-trust-green rounded-lg text-xs font-bold">
+            Google 4.9 ★
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="p-3.5 bg-surface-muted rounded-xl border border-border-subtle">
+            <p class="text-xs text-secondary italic">
+              "Picked up a Hunter 350 at Bagdogra Airport arrivals. The executive was right at gate, zero deposit hassle, bike handled Darjeeling steep inclines flawlessly!"
+            </p>
+            <div class="mt-3 pt-2 border-t border-border-subtle flex justify-between items-center text-[11px]">
+              <span class="font-bold text-secondary">Animesh Roy, Kolkata</span>
+              <span class="text-text-secondary">Rented 4 Days</span>
+            </div>
+          </div>
+
+          <div class="p-3.5 bg-surface-muted rounded-xl border border-border-subtle">
+            <p class="text-xs text-secondary italic">
+              "Rented a TVS Jupiter for local Siliguri errands and Mirik lake visit. Super clean scooty, got 2 ISI helmets free. Highly recommended!"
+            </p>
+            <div class="mt-3 pt-2 border-t border-border-subtle flex justify-between items-center text-[11px]">
+              <span class="font-bold text-secondary">Priya Sharma, Delhi</span>
+              <span class="text-text-secondary">Rented 2 Days</span>
+            </div>
+          </div>
+
+          <div class="p-3.5 bg-surface-muted rounded-xl border border-border-subtle">
+            <p class="text-xs text-secondary italic">
+              "Took the MT-15 for a Gangtok tour. Unlimited kilometers plan made the trip super stress-free. Returning at NJP station was super quick!"
+            </p>
+            <div class="mt-3 pt-2 border-t border-border-subtle flex justify-between items-center text-[11px]">
+              <span class="font-bold text-secondary">Vikramaditya S., Siliguri</span>
+              <span class="text-text-secondary">Rented 3 Days</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Earn With Rent2Ride Banner -->
+    <section class="px-4" id="host">
+      <div class="bg-gradient-to-r from-secondary to-slate-800 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="space-y-2 text-center sm:text-left z-10">
+          <span class="px-3 py-1 bg-primary text-white rounded-full text-xs font-bold inline-block">PARTNER WITH US</span>
+          <h3 class="font-heading text-xl font-bold">List Your Bike or Scooty in Siliguri</h3>
+          <p class="text-xs text-slate-300 max-w-lg">Earn up to ₹18,000/month by listing your idle two-wheeler with insured commuter & tourist bookings.</p>
+        </div>
+        <button onclick="openHostModal()" class="shrink-0 px-6 py-3 bg-white text-secondary hover:bg-slate-100 font-heading font-bold text-sm rounded-xl active:scale-95 transition-all shadow-md z-10">
+          Calculate Host Earnings
+        </button>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section class="px-4" id="faq">
+      <h2 class="font-heading text-lg font-bold text-secondary mb-3">Frequently Asked Questions</h2>
+      <div class="space-y-2">
+        <details class="group bg-white rounded-xl border border-border-subtle p-3.5 shadow-xs">
+          <summary class="flex items-center justify-between font-bold text-sm text-secondary cursor-pointer list-none">
+            <span>Is there truly zero security deposit?</span>
+            <span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-xs text-text-secondary mt-2 leading-relaxed">
+            Yes! For valid Aadhaar and Driving License holders with verified digital KYC, we do not charge any cash or bank security deposit.
+          </p>
+        </details>
+
+        <details class="group bg-white rounded-xl border border-border-subtle p-3.5 shadow-xs">
+          <summary class="flex items-center justify-between font-bold text-sm text-secondary cursor-pointer list-none">
+            <span>Can I ride the scooty or bike to Sikkim & Darjeeling?</span>
+            <span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-xs text-text-secondary mt-2 leading-relaxed">
+            Yes, our two-wheelers carry commercial West Bengal & inter-state permits. We supply original registration papers, insurance, and road tax permits required for Sikkim & Darjeeling checkpoints.
+          </p>
+        </details>
+
+        <details class="group bg-white rounded-xl border border-border-subtle p-3.5 shadow-xs">
+          <summary class="flex items-center justify-between font-bold text-sm text-secondary cursor-pointer list-none">
+            <span>How does Bagdogra airport delivery work?</span>
+            <span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-xs text-text-secondary mt-2 leading-relaxed">
+            Our delivery marshal meets you directly outside the Bagdogra Airport arrival terminal with your reserved bike/scooty, two helmets, and handover paper ready for instant ride off.
+          </p>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full px-4 py-8 bg-secondary text-white mt-12">
+    <div class="max-w-6xl mx-auto flex flex-col items-center text-center gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-white font-heading font-extrabold text-base shadow-sm">
+          R2R
+        </div>
+        <span class="font-heading font-extrabold text-xl tracking-tight">Rent<span class="text-primary">2Ride</span></span>
+      </div>
+      <p class="text-xs text-slate-400 max-w-sm">
+        Siliguri's highest rated bike & scooty self-drive rental platform. Serving Bagdogra Airport, NJP & Sevoke Road.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-slate-300">
+        <a href="#tariffs" onclick="openTariffsModal()" class="hover:text-primary transition-colors">Tariff Rules</a>
+        <span>•</span>
+        <a href="#inventory" class="hover:text-primary transition-colors">Fleet List</a>
+        <span>•</span>
+        <a href="#steps" class="hover:text-primary transition-colors">KYC Verification</a>
+        <span>•</span>
+        <a href="#host" onclick="openHostModal()" class="hover:text-primary transition-colors">Attach Vehicle</a>
+        <span>•</span>
+        <a href="tel:+919800407000" class="hover:text-primary transition-colors">Helpline: +91 98004 07000</a>
+      </div>
+
+      <div class="pt-4 border-t border-slate-800 w-full text-xs text-slate-500">
+        © 2026 Rentonn Mobility Pvt. Ltd. All rights reserved. Self-drive made effortless in North Bengal.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Fixed Mobile Bottom Navigation Bar -->
+  <nav class="fixed bottom-0 left-0 w-full z-40 flex items-center justify-around px-2 py-2 bg-white/95 backdrop-blur-md border-t border-border-subtle shadow-lg max-w-6xl left-1/2 -translate-x-1/2">
+    <button onclick="scrollToInventory()" class="flex flex-col items-center justify-center text-primary font-bold active:scale-95 transition-all">
+      <span class="material-symbols-outlined text-[24px]">search</span>
+      <span class="text-[11px] mt-0.5">Explore</span>
+    </button>
+    <button onclick="openTariffsModal()" class="flex flex-col items-center justify-center text-text-secondary hover:text-primary active:scale-95 transition-all">
+      <span class="material-symbols-outlined text-[24px]">receipt_long</span>
+      <span class="text-[11px] mt-0.5">Tariffs</span>
+    </button>
+    <button onclick="openMyBookingsModal()" class="flex flex-col items-center justify-center text-text-secondary hover:text-primary active:scale-95 transition-all relative">
+      <span class="material-symbols-outlined text-[24px]">two_wheeler</span>
+      <span class="text-[11px] mt-0.5">Bookings</span>
+      <span id="booking-badge" class="hidden absolute top-0 right-3 w-2.5 h-2.5 rounded-full bg-trust-green"></span>
+    </button>
+    <button onclick="toggleDrawer()" class="flex flex-col items-center justify-center text-text-secondary hover:text-primary active:scale-95 transition-all">
+      <span class="material-symbols-outlined text-[24px]">person</span>
+      <span class="text-[11px] mt-0.5">Account</span>
+    </button>
+  </nav>
+
+  <!-- MODALS SECTION -->
+
+  <!-- 1. Interactive Booking Modal -->
+  <div id="booking-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-secondary/70 backdrop-blur-sm overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-border-subtle relative my-8 animate-in fade-in zoom-in duration-200">
+      <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-text-secondary hover:bg-slate-100 p-1.5 rounded-full transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+      <div class="flex items-center gap-3 border-b border-border-subtle pb-4 mb-4">
+        <div class="w-12 h-12 rounded-xl bg-slate-100 p-1 shrink-0 overflow-hidden border border-border-subtle">
+          <img id="modal-vehicle-img" src="" alt="Vehicle" class="w-full h-full object-contain"/>
+        </div>
+        <div>
+          <span id="modal-vehicle-badge" class="px-2 py-0.5 bg-trust-green-subtle text-trust-green font-bold text-[10px] rounded-full inline-block">Zero Deposit</span>
+          <h3 id="modal-vehicle-title" class="font-heading font-extrabold text-lg text-secondary">Vehicle Name</h3>
+          <p id="modal-vehicle-specs" class="text-xs text-text-secondary">Engine Specs</p>
+        </div>
+      </div>
+
+      <form id="booking-form" onsubmit="confirmBooking(event)" class="space-y-4">
+        <!-- Pickup Location -->
+        <div>
+          <label class="block text-xs font-bold text-secondary uppercase tracking-wider mb-1">Pickup & Handover Hub</label>
+          <select id="modal-location" class="w-full text-xs font-bold p-2.5 bg-surface-canvas border border-border-subtle rounded-xl focus:ring-primary focus:border-primary">
+            <option value="Bagdogra Airport (IXB Hub)">Bagdogra Airport (IXB Hub)</option>
+            <option value="NJP Railway Station Junction">NJP Railway Station Junction</option>
+            <option value="Sevoke Road / Vega Circle Hub">Sevoke Road / Vega Circle Hub</option>
+            <option value="Hill Cart Road Junction">Hill Cart Road Junction</option>
+            <option value="Doorstep Delivery (Siliguri Town)">Doorstep Delivery (Siliguri Town)</option>
+          </select>
+        </div>
+
+        <!-- Date Range -->
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-bold text-text-secondary uppercase mb-1">Pickup Date</label>
+            <input type="datetime-local" id="modal-pickup" onchange="recalculateModalCost()" required class="w-full text-xs font-bold p-2 bg-surface-canvas border border-border-subtle rounded-xl"/>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-text-secondary uppercase mb-1">Dropoff Date</label>
+            <input type="datetime-local" id="modal-drop" onchange="recalculateModalCost()" required class="w-full text-xs font-bold p-2 bg-surface-canvas border border-border-subtle rounded-xl"/>
+          </div>
+        </div>
+
+        <!-- Rider Details -->
+        <div class="space-y-2 pt-2 border-t border-border-subtle">
+          <h4 class="font-bold text-xs text-secondary uppercase">Rider KYC Info</h4>
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="modal-name" placeholder="Full Legal Name" required class="text-xs p-2.5 bg-surface-canvas border border-border-subtle rounded-xl"/>
+            <input type="tel" id="modal-phone" placeholder="Mobile Number (+91)" required class="text-xs p-2.5 bg-surface-canvas border border-border-subtle rounded-xl"/>
+          </div>
+          <input type="text" id="modal-idproof" placeholder="Aadhaar / Driving License No." required class="w-full text-xs p-2.5 bg-surface-canvas border border-border-subtle rounded-xl"/>
+        </div>
+
+        <!-- Cost Breakdown Box -->
+        <div class="bg-surface-muted p-3.5 rounded-xl border border-border-subtle space-y-2 text-xs">
+          <div class="flex justify-between">
+            <span class="text-text-secondary">Rental Charge (<span id="modal-duration-text">1 Day</span>):</span>
+            <span id="modal-fare-text" class="font-bold text-secondary">₹0</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-text-secondary">2x ISI Helmets + Unlimited Km:</span>
+            <span class="font-bold text-trust-green">FREE</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-text-secondary">Security Deposit:</span>
+            <span class="font-bold text-trust-green">₹0 (Zero Deposit)</span>
+          </div>
+          <div class="flex justify-between pt-2 border-t border-border-subtle font-extrabold text-sm text-secondary">
+            <span>Total Payable on Pickup:</span>
+            <span id="modal-total-text" class="text-primary text-base">₹0</span>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 bg-primary hover:bg-accent-hover text-white font-heading font-bold text-sm rounded-xl shadow-md active:scale-95 transition-all">
+          CONFIRM INSTANT RESERVATION (₹0 ADVANCE)
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Booking Success Confirmation Modal -->
+  <div id="success-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-secondary/70 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center shadow-2xl border border-border-subtle space-y-4 animate-in fade-in zoom-in duration-200">
+      <div class="w-16 h-16 bg-trust-green-subtle text-trust-green rounded-full flex items-center justify-center mx-auto shadow-inner badge-pulse">
+        <span class="material-symbols-outlined text-[36px]">task_alt</span>
+      </div>
+      <div>
+        <span class="text-xs font-extrabold text-trust-green uppercase tracking-wider">RESERVATION CONFIRMED</span>
+        <h3 class="font-heading text-2xl font-extrabold text-secondary">Booking #<span id="success-ref">R2R-SIL-0000</span></h3>
+        <p class="text-xs text-text-secondary mt-1">Our delivery marshal has been dispatched to your pickup location.</p>
+      </div>
+
+      <div class="bg-surface-canvas p-4 rounded-xl text-left space-y-2 text-xs border border-border-subtle">
+        <div class="flex justify-between"><span class="text-text-secondary">Rider:</span><span id="success-name" class="font-bold text-secondary">---</span></div>
+        <div class="flex justify-between"><span class="text-text-secondary">Vehicle:</span><span id="success-vehicle" class="font-bold text-secondary">---</span></div>
+        <div class="flex justify-between"><span class="text-text-secondary">Pickup Location:</span><span id="success-loc" class="font-bold text-secondary">---</span></div>
+        <div class="flex justify-between"><span class="text-text-secondary">Deposit Required:</span><span class="font-bold text-trust-green">₹0 (Zero Deposit)</span></div>
+        <div class="flex justify-between pt-2 border-t border-border-subtle"><span class="text-text-secondary font-bold">Total Amount:</span><span id="success-total" class="font-extrabold text-primary text-sm">₹0</span></div>
+      </div>
+
+      <div class="flex gap-2 pt-2">
+        <a id="success-whatsapp-link" href="#" target="_blank" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-md">
+          <span class="material-symbols-outlined text-[18px]">chat</span>
+          <span>WhatsApp Details</span>
+        </a>
+        <button onclick="closeSuccessModal()" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-secondary font-bold text-xs rounded-xl">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Hub Selector Modal -->
+  <div id="hub-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-secondary/70 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-border-subtle space-y-3">
+      <div class="flex justify-between items-center pb-2 border-b border-border-subtle">
+        <h3 class="font-heading font-bold text-base text-secondary">Select Pickup Hub</h3>
+        <button onclick="closeHubModal()" class="text-text-secondary p-1"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="space-y-1.5 text-xs font-bold">
+        <button onclick="selectHub('Bagdogra Airport (IXB Hub)')" class="w-full text-left p-3 rounded-xl hover:bg-surface-muted border border-border-subtle flex items-center justify-between">
+          <span>Bagdogra Airport (IXB Hub)</span>
+          <span class="material-symbols-outlined text-primary text-[18px]">flight_land</span>
+        </button>
+        <button onclick="selectHub('NJP Railway Station Junction')" class="w-full text-left p-3 rounded-xl hover:bg-surface-muted border border-border-subtle flex items-center justify-between">
+          <span>NJP Railway Station Junction</span>
+          <span class="material-symbols-outlined text-primary text-[18px]">train</span>
+        </button>
+        <button onclick="selectHub('Sevoke Road / Vega Circle Hub')" class="w-full text-left p-3 rounded-xl hover:bg-surface-muted border border-border-subtle flex items-center justify-between">
+          <span>Sevoke Road / Vega Circle Hub</span>
+          <span class="material-symbols-outlined text-primary text-[18px]">store</span>
+        </button>
+        <button onclick="selectHub('Hill Cart Road Junction')" class="w-full text-left p-3 rounded-xl hover:bg-surface-muted border border-border-subtle flex items-center justify-between">
+          <span>Hill Cart Road Junction</span>
+          <span class="material-symbols-outlined text-primary text-[18px]">location_city</span>
+        </button>
+        <button onclick="selectHub('Doorstep Delivery (Siliguri Town)')" class="w-full text-left p-3 rounded-xl hover:bg-surface-muted border border-border-subtle flex items-center justify-between">
+          <span>Doorstep Delivery (Siliguri Town)</span>
+          <span class="material-symbols-outlined text-trust-green text-[18px]">home</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Tariffs & Rules Modal -->
+  <div id="tariffs-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-secondary/70 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-border-subtle space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center pb-2 border-b border-border-subtle">
+        <div>
+          <h3 class="font-heading font-bold text-lg text-secondary">Siliguri Tariffs & Deposit Rules</h3>
+          <p class="text-xs text-text-secondary">Transparent rates with 0 hidden charges</p>
+        </div>
+        <button onclick="closeTariffsModal()" class="text-text-secondary p-1"><span class="material-symbols-outlined">close</span></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="bg-trust-green-subtle p-3 rounded-xl border border-trust-green/30">
+          <h4 class="font-bold text-emerald-800 flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">verified</span> Zero Security Deposit Guarantee</h4>
+          <p class="text-emerald-900 mt-1">Valid Original Driving License + Aadhaar Card verification required. No cash deposit required for local & tourist commuters.</p>
+        </div>
+
+        <div class="border border-border-subtle rounded-xl overflow-hidden">
+          <table class="w-full text-left border-collapse">
+            <thead class="bg-surface-muted text-secondary font-bold">
+              <tr>
+                <th class="p-2.5">Category</th>
+                <th class="p-2.5">Daily Rate</th>
+                <th class="p-2.5">Weekly Rate</th>
+                <th class="p-2.5">Km Limit</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-border-subtle text-text-secondary font-semibold">
+              <tr><td class="p-2.5">Scooters (110cc)</td><td class="p-2.5 font-bold text-primary">₹449/day</td><td class="p-2.5">₹2,800/wk</td><td class="p-2.5 text-trust-green">Unlimited</td></tr>
+              <tr><td class="p-2.5">Scooters (125cc)</td><td class="p-2.5 font-bold text-primary">₹549/day</td><td class="p-2.5">₹3,400/wk</td><td class="p-2.5 text-trust-green">Unlimited</td></tr>
+              <tr><td class="p-2.5">Ather EV Scooter</td><td class="p-2.5 font-bold text-primary">₹599/day</td><td class="p-2.5">₹3,700/wk</td><td class="p-2.5">140 km/day</td></tr>
+              <tr><td class="p-2.5">Sport Bikes (155cc)</td><td class="p-2.5 font-bold text-primary">₹899/day</td><td class="p-2.5">₹5,400/wk</td><td class="p-2.5 text-trust-green">Unlimited</td></tr>
+              <tr><td class="p-2.5">RE Hunter 350</td><td class="p-2.5 font-bold text-primary">₹999/day</td><td class="p-2.5">₹6,200/wk</td><td class="p-2.5 text-trust-green">Unlimited</td></tr>
+              <tr><td class="p-2.5">RE Himalayan 450</td><td class="p-2.5 font-bold text-primary">₹1,499/day</td><td class="p-2.5">₹9,500/wk</td><td class="p-2.5 text-trust-green">Unlimited</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="space-y-1.5 text-text-secondary">
+          <h4 class="font-bold text-secondary uppercase text-[11px]">Key Policy Highlights:</h4>
+          <p>• <strong>Helmets:</strong> 2 ISI certified helmets included free of charge with every vehicle.</p>
+          <p>• <strong>Fuel Policy:</strong> Vehicle provided with minimum 1-2 Litres or same level; return at equal level.</p>
+          <p>• <strong>State Permits:</strong> All bikes have active West Bengal commercial self-drive permits with optional Sikkim hill permits.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. My Bookings Drawer/Modal -->
+  <div id="bookings-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-secondary/70 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-2xl border border-border-subtle space-y-3">
+      <div class="flex justify-between items-center pb-2 border-b border-border-subtle">
+        <h3 class="font-heading font-bold text-base text-secondary">My Active Bookings</h3>
+        <button onclick="closeMyBookingsModal()" class="text-text-secondary p-1"><span class="material-symbols-outlined">close</span></button>
+      </div>
+
+      <div id="bookings-list" class="space-y-3">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Host Partner Earnings Modal -->
+  <div id="host-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-secondary/70 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-2xl border border-border-subtle space-y-4">
+      <div class="flex justify-between items-center pb-2 border-b border-border-subtle">
+        <h3 class="font-heading font-bold text-base text-secondary">Partner & Attach Vehicle</h3>
+        <button onclick="closeHostModal()" class="text-text-secondary p-1"><span class="material-symbols-outlined">close</span></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <p class="text-text-secondary">Calculate monthly earnings by listing your idle two-wheeler with Rent2Ride Siliguri fleet.</p>
+        
+        <div>
+          <label class="block font-bold text-secondary mb-1">Select Vehicle Type</label>
+          <select id="host-type" onchange="calcHostEarnings()" class="w-full text-xs font-bold p-2.5 bg-surface-canvas border border-border-subtle rounded-xl">
+            <option value="scooty">110cc / 125cc Scooter (Activa/Jupiter/Ntorq)</option>
+            <option value="bike">150cc - 250cc Bike (Pulsar/MT-15/Apache)</option>
+            <option value="cruiser">350cc Mountain Cruiser (Royal Enfield)</option>
+          </select>
+        </div>
+
+        <div class="bg-surface-muted p-4 rounded-xl border border-border-subtle text-center space-y-1">
+          <span class="text-text-secondary font-bold uppercase text-[10px]">Estimated Monthly Earnings</span>
+          <div id="host-earning-val" class="font-heading font-extrabold text-2xl text-primary">₹12,500 / mo</div>
+          <span class="text-trust-green font-semibold block text-[11px]">✓ Includes comprehensive vehicle insurance coverage</span>
+        </div>
+
+        <button onclick="submitHostForm()" class="w-full py-3 bg-secondary hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-md">
+          Submit Partnership Request
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Sample Fleet Data with high reliability Unsplash images
+    const fleetData = [
+      {
+        id: 'tvs-jupiter',
+        category: 'scooty',
+        name: 'TVS Jupiter 110 / Activa 6G',
+        badge: 'Instant Confirmation',
+        badgeColor: 'bg-trust-green-subtle text-trust-green border-trust-green/30',
+        specs: '109.7 cc • Automatic • 50 km/l',
+        priceDay: 449,
+        transmission: 'Automatic',
+        img: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80',
+        hubs: ['Bagdogra Airport (IXB Hub)', 'NJP Railway Station Junction', 'Sevoke Road / Vega Circle Hub', 'Doorstep Delivery (Siliguri Town)']
+      },
+      {
+        id: 'tvs-ntorq',
+        category: 'scooty',
+        name: 'TVS Ntorq 125 Race Edition',
+        badge: 'Popular Scooty',
+        badgeColor: 'bg-amber-50 text-amber-700 border-amber-300',
+        specs: '124.8 cc • Automatic • Bluetooth Nav',
+        priceDay: 549,
+        transmission: 'Automatic',
+        img: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=600&q=80',
+        hubs: ['Bagdogra Airport (IXB Hub)', 'NJP Railway Station Junction', 'Hill Cart Road Junction']
+      },
+      {
+        id: 'ather-450x',
+        category: 'ev',
+        name: 'Ather 450X EV Scooter',
+        badge: 'Zero Emission EV',
+        badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-300',
+        specs: 'Eco Mode • 140km Range • Fast Charge',
+        priceDay: 599,
+        transmission: 'Automatic',
+        img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=600&q=80',
+        hubs: ['Sevoke Road / Vega Circle Hub', 'Matigara / City Centre Hub']
+      },
+      {
+        id: 'yamaha-mt15',
+        category: 'bikes',
+        name: 'Yamaha MT-15 V2 Sport',
+        badge: 'High Demand',
+        badgeColor: 'bg-orange-50 text-primary border-orange-200',
+        specs: '155 cc VVA • 6-Speed • Dual ABS',
+        priceDay: 899,
+        transmission: 'Manual',
+        img: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=600&q=80',
+        hubs: ['Bagdogra Airport (IXB Hub)', 'Sevoke Road / Vega Circle Hub', 'NJP Railway Station Junction']
+      },
+      {
+        id: 're-hunter350',
+        category: 'bikes',
+        name: 'Royal Enfield Hunter 350',
+        badge: 'Hill Specialist',
+        badgeColor: 'bg-trust-green-subtle text-trust-green border-trust-green/30',
+        specs: '349 cc J-Series • High Torque • Hill Mount',
+        priceDay: 999,
+        transmission: 'Manual',
+        img: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80',
+        hubs: ['Bagdogra Airport (IXB Hub)', 'NJP Railway Station Junction', 'Sevoke Road / Vega Circle Hub', 'Doorstep Delivery (Siliguri Town)']
+      },
+      {
+        id: 're-himalayan',
+        category: 'bikes',
+        name: 'Royal Enfield Himalayan 450',
+        badge: 'Sikkim & Darjeeling Tourer',
+        badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+        specs: '452 cc Sherpa • Long Travel Suspension',
+        priceDay: 1499,
+        transmission: 'Manual',
+        img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=600&q=80',
+        hubs: ['Bagdogra Airport (IXB Hub)', 'Sevoke Road / Vega Circle Hub']
+      },
+      {
+        id: 'bajaj-pulsar',
+        category: 'bikes',
+        name: 'Bajaj Pulsar N250 Dual ABS',
+        badge: 'Urban Cruiser',
+        badgeColor: 'bg-slate-100 text-slate-800 border-slate-300',
+        specs: '249 cc Oil-Cooled • Dual Channel ABS',
+        priceDay: 799,
+        transmission: 'Manual',
+        img: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=600&q=80',
+        hubs: ['NJP Railway Station Junction', 'Hill Cart Road Junction']
+      },
+      {
+        id: 'honda-dio',
+        category: 'scooty',
+        name: 'Honda Dio 110 Deluxe',
+        badge: 'Easy Commuter',
+        badgeColor: 'bg-trust-green-subtle text-trust-green border-trust-green/30',
+        specs: '109.5 cc • Automatic • Light Weight',
+        priceDay: 449,
+        transmission: 'Automatic',
+        img: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80',
+        hubs: ['Bagdogra Airport (IXB Hub)', 'NJP Railway Station Junction', 'Doorstep Delivery (Siliguri Town)']
+      }
+    ];
+
+    // App State
+    let currentFilter = 'all';
+    let currentSortAsc = true;
+    let selectedVehicle = null;
+    let activeBookings = JSON.parse(localStorage.getItem('r2r_bookings') || '[]');
+    let favorites = JSON.parse(localStorage.getItem('r2r_favorites') || '[]');
+
+    // Initialize Default Dates
+    window.addEventListener('DOMContentLoaded', () => {
+      const now = new Date();
+      const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      
+      const formatIso = (d) => d.toISOString().slice(0, 16);
+      
+      const searchPickup = document.getElementById('search-pickup');
+      const searchDrop = document.getElementById('search-drop');
+      
+      if (searchPickup && searchDrop) {
+        searchPickup.value = formatIso(now);
+        searchDrop.value = formatIso(tomorrow);
+      }
+      
+      renderFleetGrid();
+      updateBookingBadge();
+    });
+
+    // Render Fleet Grid Cards
+    function renderFleetGrid() {
+      const grid = document.getElementById('fleet-grid');
+      grid.innerHTML = '';
+
+      let filtered = fleetData.filter(v => currentFilter === 'all' || v.category === currentFilter);
+      
+      if (!currentSortAsc) {
+        filtered.sort((a, b) => b.priceDay - a.priceDay);
+      } else {
+        filtered.sort((a, b) => a.priceDay - b.priceDay);
+      }
+
+      filtered.forEach(v => {
+        const isFav = favorites.includes(v.id);
+        const card = document.createElement('article');
+        card.className = "bg-white rounded-2xl border border-border-subtle overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="relative bg-slate-900 h-48 overflow-hidden group">
+              <img src="${v.img}" alt="${v.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"/>
+              <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[11px] font-bold border shadow-xs ${v.badgeColor}">
+                ${v.badge}
+              </span>
+              <button onclick="toggleFav('${v.id}')" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center text-slate-700 shadow-sm active:scale-90 transition-all">
+                <span class="material-symbols-outlined text-[18px] ${isFav ? 'text-red-500 material-symbols-fill' : ''}">favorite</span>
+              </button>
+              <span class="absolute bottom-3 right-3 bg-secondary/90 backdrop-blur-xs text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">
+                ${v.transmission}
+              </span>
+            </div>
+
+            <div class="p-4 space-y-2">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="font-heading font-bold text-base text-secondary">${v.name}</h3>
+                  <p class="text-xs text-text-secondary flex items-center gap-1 mt-0.5">
+                    <span class="material-symbols-outlined text-[14px] text-primary">location_on</span>
+                    ${v.hubs[0]}
+                  </p>
+                </div>
+                <div class="text-right shrink-0">
+                  <span class="block font-heading font-extrabold text-xl text-primary">₹${v.priceDay}</span>
+                  <span class="text-[10px] text-text-secondary font-semibold">per 24 hrs</span>
+                </div>
+              </div>
+
+              <!-- Specs Grid -->
+              <div class="grid grid-cols-3 gap-1 py-2 border-y border-border-subtle text-text-secondary text-[11px] font-medium">
+                <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">speed</span><span class="truncate">${v.specs.split('•')[0]}</span></div>
+                <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">sports_motorsports</span><span>2 Helmets</span></div>
+                <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">verified</span><span class="text-trust-green font-bold">0₹ Deposit</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 pt-0">
+            <button onclick="openBookingModal('${v.id}')" class="w-full py-2.5 bg-primary hover:bg-accent-hover text-white font-heading font-bold text-xs rounded-xl shadow-xs active:scale-95 transition-all text-center">
+              BOOK NOW (0₹ DEPOSIT)
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Filter Fleet Tabs
+    function filterFleet(category, element) {
+      currentFilter = category;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-surface-card', 'text-secondary', 'shadow-xs', 'font-bold');
+        btn.classList.add('text-text-secondary', 'font-semibold');
+      });
+      element.classList.add('bg-surface-card', 'text-secondary', 'shadow-xs', 'font-bold');
+      element.classList.remove('text-text-secondary', 'font-semibold');
+      renderFleetGrid();
+    }
+
+    // Toggle Price Sort
+    function toggleSort() {
+      currentSortAsc = !currentSortAsc;
+      renderFleetGrid();
+      showToast(`Sorted by price: ${currentSortAsc ? 'Low to High' : 'High to Low'}`);
+    }
+
+    // Favorite Toggle
+    function toggleFav(id) {
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(f => f !== id);
+        showToast('Removed from saved vehicles');
+      } else {
+        favorites.push(id);
+        showToast('Saved to your favorites!');
+      }
+      localStorage.setItem('r2r_favorites', JSON.stringify(favorites));
+      renderFleetGrid();
+    }
+
+    // Open Booking Modal
+    function openBookingModal(vehicleId) {
+      selectedVehicle = fleetData.find(v => v.id === vehicleId);
+      if (!selectedVehicle) return;
+
+      document.getElementById('modal-vehicle-img').src = selectedVehicle.img;
+      document.getElementById('modal-vehicle-title').textContent = selectedVehicle.name;
+      document.getElementById('modal-vehicle-specs').textContent = selectedVehicle.specs;
+      document.getElementById('modal-vehicle-badge').textContent = selectedVehicle.badge;
+
+      const searchPickup = document.getElementById('search-pickup').value;
+      const searchDrop = document.getElementById('search-drop').value;
+      const searchLoc = document.getElementById('search-location').value;
+
+      document.getElementById('modal-pickup').value = searchPickup;
+      document.getElementById('modal-drop').value = searchDrop;
+      document.getElementById('modal-location').value = searchLoc;
+
+      recalculateModalCost();
+
+      const modal = document.getElementById('booking-modal');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeBookingModal() {
+      document.getElementById('booking-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // Recalculate Modal Duration and Total Fare
+    function recalculateModalCost() {
+      if (!selectedVehicle) return;
+
+      const pVal = document.getElementById('modal-pickup').value;
+      const dVal = document.getElementById('modal-drop').value;
+
+      let days = 1;
+      if (pVal && dVal) {
+        const pDate = new Date(pVal);
+        const dDate = new Date(dVal);
+        const diffMs = dDate - pDate;
+        const diffHours = diffMs / (1000 * 60 * 60);
+        days = Math.max(1, Math.ceil(diffHours / 24));
+      }
+
+      const totalFare = selectedVehicle.priceDay * days;
+
+      document.getElementById('modal-duration-text').textContent = `${days} Day${days > 1 ? 's' : ''}`;
+      document.getElementById('modal-fare-text').textContent = `₹${totalFare}`;
+      document.getElementById('modal-total-text').textContent = `₹${totalFare}`;
+    }
+
+    // Submit & Confirm Booking
+    function confirmBooking(e) {
+      e.preventDefault();
+      if (!selectedVehicle) return;
+
+      const name = document.getElementById('modal-name').value;
+      const phone = document.getElementById('modal-phone').value;
+      const idproof = document.getElementById('modal-idproof').value;
+      const location = document.getElementById('modal-location').value;
+      const pickup = document.getElementById('modal-pickup').value;
+      const drop = document.getElementById('modal-drop').value;
+
+      const refId = 'R2R-SIL-' + Math.floor(1000 + Math.random() * 9000);
+      const daysText = document.getElementById('modal-duration-text').textContent;
+      const totalText = document.getElementById('modal-total-text').textContent;
+
+      const newBooking = {
+        refId,
+        vehicleName: selectedVehicle.name,
+        name,
+        phone,
+        location,
+        pickup,
+        drop,
+        total: totalText,
+        status: 'Confirmed'
+      };
+
+      activeBookings.unshift(newBooking);
+      localStorage.setItem('r2r_bookings', JSON.stringify(activeBookings));
+      updateBookingBadge();
+
+      closeBookingModal();
+
+      // Show Success Modal
+      document.getElementById('success-ref').textContent = refId;
+      document.getElementById('success-name').textContent = name;
+      document.getElementById('success-vehicle').textContent = selectedVehicle.name;
+      document.getElementById('success-loc').textContent = location;
+      document.getElementById('success-total').textContent = totalText;
+
+      const waText = encodeURIComponent(`Hi Rent2Ride Siliguri, I just reserved ${selectedVehicle.name} (Ref: ${refId}) for pickup at ${location}.`);
+      document.getElementById('success-whatsapp-link').href = `https://wa.me/919800407000?text=${waText}`;
+
+      document.getElementById('success-modal').classList.remove('hidden');
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('success-modal').classList.add('hidden');
+    }
+
+    // Hub Location Modal Logic
+    function openHubModal() { document.getElementById('hub-modal').classList.remove('hidden'); }
+    function closeHubModal() { document.getElementById('hub-modal').classList.add('hidden'); }
+    function selectHub(hubName) {
+      document.getElementById('active-hub-display').textContent = hubName.split('(')[0].trim();
+      document.getElementById('search-location').value = hubName;
+      closeHubModal();
+      showToast(`Selected Hub: ${hubName}`);
+    }
+    function syncLocation(val) {
+      document.getElementById('active-hub-display').textContent = val.split('(')[0].trim();
+    }
+
+    // Tariffs Modal
+    function openTariffsModal() { document.getElementById('tariffs-modal').classList.remove('hidden'); }
+    function closeTariffsModal() { document.getElementById('tariffs-modal').classList.add('hidden'); }
+
+    // My Bookings Modal
+    function openMyBookingsModal() {
+      const modal = document.getElementById('bookings-modal');
+      const list = document.getElementById('bookings-list');
+      list.innerHTML = '';
+
+      if (activeBookings.length === 0) {
+        list.innerHTML = '<p class="text-xs text-text-secondary text-center py-4">No active reservations found.</p>';
+      } else {
+        activeBookings.forEach(b => {
+          const item = document.createElement('div');
+          item.className = "p-3 bg-surface-muted rounded-xl border border-border-subtle text-xs space-y-1";
+          item.innerHTML = `
+            <div class="flex justify-between items-center font-bold text-secondary">
+              <span>${b.vehicleName}</span>
+              <span class="text-trust-green bg-trust-green-subtle px-2 py-0.5 rounded text-[10px]">${b.status}</span>
+            </div>
+            <div class="text-text-secondary flex justify-between">
+              <span>Ref: <strong>${b.refId}</strong></span>
+              <span>Total: <strong class="text-primary">${b.total}</strong></span>
+            </div>
+            <div class="text-[11px] text-text-secondary">Hub: ${b.location}</div>
+          `;
+          list.appendChild(item);
+        });
+      }
+
+      modal.classList.remove('hidden');
+    }
+    function closeMyBookingsModal() { document.getElementById('bookings-modal').classList.add('hidden'); }
+
+    function updateBookingBadge() {
+      const badge = document.getElementById('booking-badge');
+      if (badge) {
+        if (activeBookings.length > 0) badge.classList.remove('hidden');
+        else badge.classList.add('hidden');
+      }
+    }
+
+    // Host Partner Modal
+    function openHostModal() { document.getElementById('host-modal').classList.remove('hidden'); }
+    function closeHostModal() { document.getElementById('host-modal').classList.add('hidden'); }
+    function calcHostEarnings() {
+      const type = document.getElementById('host-type').value;
+      const display = document.getElementById('host-earning-val');
+      if (type === 'scooty') display.textContent = '₹12,500 / mo';
+      else if (type === 'bike') display.textContent = '₹16,000 / mo';
+      else if (type === 'cruiser') display.textContent = '₹21,500 / mo';
+    }
+    function submitHostForm() {
+      closeHostModal();
+      showToast('Partnership details received! Siliguri team will contact you.');
+    }
+
+    // Helper Toast
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = msg;
+      toast.classList.remove('translate-y-[-100px]', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('translate-y-[-100px]', 'opacity-0', 'pointer-events-none');
+      }, 3000);
+    }
+
+    // Drawer Toggle
+    function toggleDrawer() {
+      const drawer = document.getElementById('mobile-drawer');
+      const backdrop = document.getElementById('drawer-backdrop');
+      const isClosed = drawer.classList.contains('-translate-x-full');
+      if (isClosed) {
+        drawer.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        drawer.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function calculateSearchDuration() {
+      const p = document.getElementById('search-pickup').value;
+      const d = document.getElementById('search-drop').value;
+      if (p && d) {
+        const diffMs = new Date(d) - new Date(p);
+        const hours = diffMs / (1000 * 60 * 60);
+        const days = Math.max(1, Math.ceil(hours / 24));
+        document.getElementById('trip-duration-badge').textContent = `Duration: ${days} Day${days > 1 ? 's' : ''}`;
+      }
+    }
+
+    function executeSearch() {
+      scrollToInventory();
+      showToast('Filtered inventory matching your dates & hub');
+    }
+
+    function scrollToInventory() {
+      document.getElementById('inventory').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
