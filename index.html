@@ -155,39 +155,62 @@
   </aside>
 
   <!-- Sticky Top Bar Header -->
-  <header class="sticky top-0 z-40 flex items-center justify-between w-full px-4 py-3 bg-white/90 backdrop-blur-md shadow-sm border-b border-border-subtle max-w-6xl mx-auto">
-    <div class="flex items-center gap-3">
-      <button class="p-2 -ml-2 rounded-lg text-secondary hover:bg-surface-muted active:scale-95 transition-all" onclick="toggleDrawer()" aria-label="Open Navigation Menu">
-        <span class="material-symbols-outlined text-[26px]">menu</span>
-      </button>
-      <a href="#" class="flex items-center gap-2">
-        <img src="logo.png" alt="Rent2Ride Siliguri Bike & Scooty Rental" class="h-10 w-auto object-contain" />
-      </a>
-    </div>
+  <header class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md shadow-sm border-b border-border-subtle">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      
+      <!-- Brand & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <button class="md:hidden p-2 -ml-2 rounded-lg text-secondary hover:bg-surface-muted active:scale-95 transition-all" onclick="toggleDrawer()" aria-label="Open Navigation Menu">
+          <span class="material-symbols-outlined text-[26px]">menu</span>
+        </button>
+        <a href="#" class="flex items-center gap-2">
+          <img src="logo.png" alt="Rent2Ride Siliguri Bike & Scooty Rental" class="h-10 w-auto object-contain" />
+        </a>
+      </div>
 
-    <div class="flex items-center gap-2">
-      <!-- Hub Selector Pill Button -->
-      <button onclick="openHubModal()" class="flex items-center gap-1.5 bg-surface-muted hover:bg-slate-200 px-3 py-1.5 rounded-full border border-border-subtle text-secondary active:scale-95 transition-all">
-        <span class="material-symbols-outlined text-[18px] text-primary">location_on</span>
-        <span id="active-hub-display" class="text-xs font-bold truncate max-w-[110px]">Bagdogra Airport</span>
-        <span class="material-symbols-outlined text-[16px] text-text-secondary">expand_more</span>
-      </button>
+      <!-- Desktop Navigation Menu Links -->
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-text-secondary">
+        <a href="#inventory" class="hover:text-primary transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-[18px]">two_wheeler</span> Fleet & Rides
+        </a>
+        <button onclick="openTariffsModal()" class="hover:text-primary transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-[18px]">payments</span> Tariffs & Rules
+        </button>
+        <a href="#steps" class="hover:text-primary transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-[18px]">verified</span> 4-Step Process
+        </a>
+        <button onclick="openHostModal()" class="hover:text-primary transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-[18px]">storefront</span> Attach Vehicle
+        </button>
+      </nav>
 
-      <!-- Tariff Rates Action Button -->
-      <button onclick="openTariffsModal()" class="hidden md:flex items-center gap-1 text-xs font-bold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-secondary rounded-full border border-border-subtle transition-all">
-        <span class="material-symbols-outlined text-[16px] text-primary">payments</span>
-        <span>Tariffs</span>
-      </button>
+      <!-- Right Action Items -->
+      <div class="flex items-center gap-3">
+        <!-- Hub Selector Pill Button -->
+        <button onclick="openHubModal()" class="flex items-center gap-1.5 bg-surface-muted hover:bg-slate-200 px-3 py-1.5 rounded-full border border-border-subtle text-secondary active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-[18px] text-primary">location_on</span>
+          <span id="active-hub-display" class="text-xs font-bold truncate max-w-[120px]">Bagdogra Airport</span>
+          <span class="material-symbols-outlined text-[16px] text-text-secondary">expand_more</span>
+        </button>
 
-      <!-- Instant Phone Helpline Button -->
-      <a href="tel:+919800407000" class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center shadow-md hover:bg-accent-hover active:scale-95 transition-all" title="Call Siliguri Helpline">
-        <span class="material-symbols-outlined text-[20px]">call</span>
-      </a>
+        <!-- Desktop Helpline -->
+        <a href="tel:+919800407000" class="hidden lg:flex items-center gap-2 text-xs font-bold text-secondary bg-surface-muted px-3.5 py-1.5 rounded-full border border-border-subtle hover:bg-slate-200 transition-all">
+          <span class="material-symbols-outlined text-[18px] text-trust-green">headset_mic</span>
+          <span>+91 98004 07000</span>
+        </a>
+
+        <!-- Desktop CTA Reserve -->
+        <button onclick="scrollToInventory()" class="hidden sm:flex items-center gap-1 bg-primary hover:bg-accent-hover text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-xs">
+          <span>Search Rides</span>
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </button>
+      </div>
+
     </div>
   </header>
 
   <!-- Main Body Container -->
-  <main class="max-w-6xl mx-auto space-y-6 pt-2">
+  <main class="max-w-7xl mx-auto space-y-8 pt-4">
 
     <!-- Hero Section -->
     <section class="px-4 pt-3">
@@ -581,36 +604,77 @@
 
   </main>
 
-  <!-- Footer -->
-  <footer class="w-full px-4 py-8 bg-secondary text-white mt-12">
-    <div class="max-w-6xl mx-auto flex flex-col items-center text-center gap-4">
-      <div class="flex items-center gap-2">
-        <img src="logo.png" alt="Rent2Ride Logo" class="h-12 w-auto object-contain brightness-0 invert" />
+  <!-- Comprehensive Desktop & Mobile Footer -->
+  <footer class="w-full bg-secondary text-white mt-16 pt-12 pb-20 md:pb-12 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      
+      <!-- Col 1: Brand & Contact -->
+      <div class="space-y-3">
+        <img src="logo.png" alt="Rent2Ride Siliguri Logo" class="h-12 w-auto object-contain brightness-0 invert" />
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Siliguri's highest rated bike & scooty self-drive rental platform. Doorstep delivery at Bagdogra Airport (IXB Hub) & NJP Railway Station.
+        </p>
+        <div class="pt-2 text-xs space-y-1 text-slate-300">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-[18px]">phone_in_talk</span>
+            <span class="font-bold">24/7 Helpline: +91 98004 07000</span>
+          </div>
+          <div class="flex items-center gap-2 text-trust-green font-semibold">
+            <span class="material-symbols-outlined text-[18px]">verified</span>
+            <span>Zero Security Deposit Guarantee</span>
+          </div>
+        </div>
       </div>
-      <p class="text-xs text-slate-400 max-w-sm">
-        Siliguri's highest rated bike & scooty self-drive rental platform. Serving Bagdogra Airport, NJP & Sevoke Road.
-      </p>
 
-      <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-slate-300">
-        <a href="#tariffs" onclick="openTariffsModal()" class="hover:text-primary transition-colors">Tariff Rules</a>
-        <span>•</span>
-        <a href="#inventory" class="hover:text-primary transition-colors">Fleet List</a>
-        <span>•</span>
-        <a href="#steps" class="hover:text-primary transition-colors">KYC Verification</a>
-        <span>•</span>
-        <a href="#host" onclick="openHostModal()" class="hover:text-primary transition-colors">Attach Vehicle</a>
-        <span>•</span>
-        <a href="tel:+919800407000" class="hover:text-primary transition-colors">Helpline: +91 98004 07000</a>
+      <!-- Col 2: Our Fleet Categories -->
+      <div class="space-y-2">
+        <h4 class="font-heading font-bold text-sm text-white uppercase tracking-wider border-b border-slate-700 pb-2">Siliguri Fleet</h4>
+        <ul class="space-y-1.5 text-xs text-slate-300">
+          <li><a href="#inventory" onclick="filterFleet('scooty', document.querySelector('.tab-btn'))" class="hover:text-primary transition-colors">Automatic Scooters (110cc - 125cc)</a></li>
+          <li><a href="#inventory" onclick="filterFleet('bikes', document.querySelector('.tab-btn'))" class="hover:text-primary transition-colors">Sports Bikes (Yamaha MT-15 / Pulsar)</a></li>
+          <li><a href="#inventory" onclick="filterFleet('bikes', document.querySelector('.tab-btn'))" class="hover:text-primary transition-colors">Royal Enfield Hunter 350 Mountain Cruiser</a></li>
+          <li><a href="#inventory" onclick="filterFleet('bikes', document.querySelector('.tab-btn'))" class="hover:text-primary transition-colors">Royal Enfield Himalayan 450 Tourer</a></li>
+          <li><a href="#inventory" onclick="filterFleet('ev', document.querySelector('.tab-btn'))" class="hover:text-primary transition-colors">Ather 450X EV Scooter</a></li>
+        </ul>
       </div>
 
-      <div class="pt-4 border-t border-slate-800 w-full text-xs text-slate-500">
-        © 2026 Rentonn Mobility Pvt. Ltd. All rights reserved. Self-drive made effortless in North Bengal.
+      <!-- Col 3: Popular Routes from Siliguri -->
+      <div class="space-y-2">
+        <h4 class="font-heading font-bold text-sm text-white uppercase tracking-wider border-b border-slate-700 pb-2">North Bengal Circuits</h4>
+        <ul class="space-y-1.5 text-xs text-slate-300">
+          <li><span class="text-primary font-bold">•</span> Siliguri to Darjeeling (65 km via Rohini)</li>
+          <li><span class="text-primary font-bold">•</span> Siliguri to Gangtok, Sikkim (114 km)</li>
+          <li><span class="text-primary font-bold">•</span> Mirik Lake & Kurseong Tea Estates</li>
+          <li><span class="text-primary font-bold">•</span> Dooars Safari & Lataguri Forest Route</li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Quick Links & Host Partner -->
+      <div class="space-y-2">
+        <h4 class="font-heading font-bold text-sm text-white uppercase tracking-wider border-b border-slate-700 pb-2">Customer & Partners</h4>
+        <ul class="space-y-1.5 text-xs text-slate-300">
+          <li><button onclick="openTariffsModal()" class="hover:text-primary transition-colors text-left">Tariff & Price Chart</button></li>
+          <li><button onclick="openMyBookingsModal()" class="hover:text-primary transition-colors text-left">Active Reservations</button></li>
+          <li><button onclick="openHostModal()" class="hover:text-primary transition-colors text-left text-amber-400 font-bold">List Vehicle & Earn ₹20k/mo</button></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400 gap-3">
+      <div>© 2026 Rentonn Mobility Pvt. Ltd. All rights reserved. Siliguri, West Bengal.</div>
+      <div class="flex items-center gap-4">
+        <span>Zero Deposit Policy</span>
+        <span>•</span>
+        <span>2 ISI Helmets Free</span>
+        <span>•</span>
+        <span>Sikkim Commercial Permits</span>
       </div>
     </div>
   </footer>
 
-  <!-- Fixed Mobile Bottom Navigation Bar -->
-  <nav class="fixed bottom-0 left-0 w-full z-40 flex items-center justify-around px-2 py-2 bg-white/95 backdrop-blur-md border-t border-border-subtle shadow-lg max-w-6xl left-1/2 -translate-x-1/2">
+  <!-- Fixed Mobile Bottom Navigation Bar (Mobile Viewports Only) -->
+  <nav class="fixed bottom-0 left-0 w-full z-40 md:hidden flex items-center justify-around px-2 py-2 bg-white/95 backdrop-blur-md border-t border-border-subtle shadow-lg">
     <button onclick="scrollToInventory()" class="flex flex-col items-center justify-center text-primary font-bold active:scale-95 transition-all">
       <span class="material-symbols-outlined text-[24px]">search</span>
       <span class="text-[11px] mt-0.5">Explore</span>
